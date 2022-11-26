@@ -1,0 +1,77 @@
+load("@com_github_mvukov_rules_ros2//ros2:cc_defs.bzl", "ros2_cpp_binary")
+load("@com_github_mvukov_rules_ros2//ros2:launch.bzl", "ros2_launch")
+load("@com_github_mvukov_rules_ros2//ros2:test.bzl", "ros2_test")
+load("@com_github_mvukov_rules_ros2//ros2:topic.bzl", "ros2_topic")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+load("@io_bazel_rules_docker//lang:image.bzl", container_image = "app_layer")
+load("@rules_python//python:defs.bzl", "py_binary")
+ros2_cpp_binary(
+    name = "talker",
+    srcs = ["talker.cc"],
+    deps = [
+        "@ros2_common_interfaces//:cpp_std_msgs",
+        "@ros2_rclcpp//:rclcpp",
+    ],
+)
+
+ros2_cpp_binary(
+    name = "listener",
+    srcs = ["listener.cc"],
+    deps = [
+        "@ros2_common_interfaces//:cpp_std_msgs",
+        "@ros2_rclcpp//:rclcpp",
+    ],
+)
+
+py_binary(
+    name = "py_talker",
+    srcs = ["py_talker.py"],
+    deps = [
+        "@ros2_common_interfaces//:py_std_msgs",
+        "@ros2_rclpy//:rclpy",
+    ],
+)
+
+ros2_launch(
+    name = "chatter",
+    launch_file = "chatter.py",
+    nodes = [
+        ":listener",
+        ":talker",
+    ],
+)
+
+ros2_test(
+    name = "tests",
+    size = "small",
+    launch_file = "tests.py",
+    nodes = [
+        ":talker",
+    ],
+    deps = [
+        "@ros2_common_interfaces//:py_std_msgs",
+    ],
+)
+
+ros2_topic(
+    name = "topic",
+    deps = [
+        "@ros2_common_interfaces//:py_std_msgs",
+    ],
+)
+
+container_image(
+    name = "chatter_image",
+    base = "@ros_deploy_base//image",
+    binary = ":chatter",
+    docker_run_flags = "-it --rm --network=host",
+)
+
+container_push(
+    name = "chatter_publish",
+    format = "Docker",
+    image = ":chatter_image",
+    registry = "docker.io",
+    repository = "mvukov/chatter",
+    tag = "demo_ros2",
+)

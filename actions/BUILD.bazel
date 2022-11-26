@@ -1,0 +1,64 @@
+load("@com_github_mvukov_rules_ros2//ros2:cc_defs.bzl", "ros2_cpp_binary")
+load(
+    "@com_github_mvukov_rules_ros2//ros2:interfaces.bzl",
+    "cpp_ros2_interface_library",
+    "py_ros2_interface_library",
+    "ros2_interface_library",
+)
+load("@com_github_mvukov_rules_ros2//ros2:launch.bzl", "ros2_launch")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_python//python:defs.bzl", "py_binary")
+
+ros2_interface_library(
+    name = "fibonacci_msgs",
+    srcs = ["Fibonacci.action"],
+    deps = ["@ros2_rcl_interfaces//:action_msgs"],
+)
+
+cpp_ros2_interface_library(
+    name = "cpp_fibonacci_msgs",
+    deps = [":fibonacci_msgs"],
+)
+
+ros2_cpp_binary(
+    name = "server",
+    srcs = ["server.cc"],
+    deps = [
+        ":cpp_fibonacci_msgs",
+        "@ros2_rclcpp//:rclcpp",
+        "@ros2_rclcpp//:rclcpp_action",
+    ],
+)
+
+py_ros2_interface_library(
+    name = "py_fibonacci_msgs",
+    deps = [":fibonacci_msgs"],
+)
+
+py_binary(
+    name = "py_server",
+    srcs = ["py_server.py"],
+    deps = [
+        ":py_fibonacci_msgs",
+        "@ros2_rclpy//:rclpy",
+    ],
+)
+
+ros2_cpp_binary(
+    name = "client",
+    srcs = ["client.cc"],
+    deps = [
+        ":cpp_fibonacci_msgs",
+        "@ros2_rclcpp//:rclcpp",
+        "@ros2_rclcpp//:rclcpp_action",
+    ],
+)
+
+ros2_launch(
+    name = "actions",
+    launch_file = "actions.py",
+    nodes = [
+        ":client",
+        ":server",
+    ],
+)

@@ -1,0 +1,16 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+
+cmake(
+    name = "opencv",
+    cache_entries = {
+        "CMAKE_C_FLAGS": "-DBUILD_LIST=core"
+    },
+    lib_source = "@opencv//:all",
+
+    out_include_dir = "include/opencv4",
+    out_shared_libs = [
+        "libopencv_core.so",
+    ],
+    generate_args = ["-GNinja",],
+    visibility = ["//visibility:public"],
+)
