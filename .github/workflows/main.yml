@@ -5,7 +5,7 @@ on: [push, pull_request, pull_request_target]
 
 jobs:
   bazel_build_and_test:
-    runs-on: ubuntu-focal
+    runs-on:  ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
