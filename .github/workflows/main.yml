@@ -1,9 +1,7 @@
 name: Bazel ROS Continuous Integration
 
-on:
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request, pull_request_target]
+
 
 jobs:
   bazel_build_and_test:
