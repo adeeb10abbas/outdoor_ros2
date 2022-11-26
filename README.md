@@ -1,19 +1,15 @@
-# Examples for rules_ros2
+# Building and running the mono Repo 
+- Need to have Bazel installed (>=5.0)
+- `bazel build ...`
+- There's some simple chatter, actions and zero copy chatter examples taken from [rules_ros2](https://github.com/mvukov/rules_ros2) for reference
+- Bazel ROS2 rules from [drake-ros](https://github.com/RobotLocomotion/drake-ros)
+- Created an `image_tools` sub directory to show how to pull in and build external useful libs like OpenCV and use it. 
 
-This folder provides some examples and guidelines on how you can use this repo
-in your very own (mono)repo. It's important to note here that this folder is
-a yet another Bazel workspace (it has a WORKSPACE file). Please take a look at
-the workspace file to get an idea how to set up yourself.
+TODO: @adeeb10abbas - Add more details
 
-Besides setting up your workspace file, please make sure you copy the `.bazelrc`
-file as well to your monorepo -- or at least adjust your own using the provided
-one.
+# Running examples 
+- `bazel run //chatter:talker`
+- `bazel run //chatter:listener`
 
-Before you build/run/test any of the targets in this folder, please make sure
-your terminal is in this folder, or in a subfolder, and not in the root
-of the repo.
-
-If you want to run ROS2 deployments in Docker containers, please install
-[Docker](https://docs.docker.com/engine/install/ubuntu/).
-
-You can start with a simple [chatter](chatter) example.
+# Creating new functionalities 
+- Try to mimic any one of the examples provided (BUILD, environ.bzl etc.) as needed. 
