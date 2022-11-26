@@ -14,6 +14,6 @@ jobs:
         with:
           path: "/home/runner/.cache/bazel"
           key: bazel
-      - name: Test drake_ros_core
+      - name: Test outdoor_slam_ros2
         run: bazel build //...
-        working-directory: outdoor_slam_ros2
+        working-directory: .
