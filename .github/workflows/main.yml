@@ -5,9 +5,7 @@ on: [push, pull_request, pull_request_target]
 
 jobs:
   bazel_build_and_test:
-    runs-on: ubuntu-latest
-    container:
-      image: ros:rolling-ros-base-focal
+    runs-on: ubuntu-focal
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
