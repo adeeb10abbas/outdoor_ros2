@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - main
-      - develop
 
 jobs:
   bazel_build_and_test:
@@ -19,4 +18,4 @@ jobs:
           key: bazel
       - name: Test drake_ros_core
         run: bazel build //...
-        working-directory: .
+        working-directory: outdoor_slam_ros2
