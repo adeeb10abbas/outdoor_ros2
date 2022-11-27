@@ -1,4 +1,4 @@
-# Outdoor SLAM and autonomous Navigation
+# Outdoor SLAM and autonomous navigation
 ## Building and running the mono Repo 
 - Need to have Bazel installed (>=5.0)
 - `bazel build ...`
