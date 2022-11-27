@@ -1,4 +1,5 @@
-# Building and running the mono Repo 
+# Outdoor SLAM and autonomous Navigation
+## Building and running the mono Repo 
 - Need to have Bazel installed (>=5.0)
 - `bazel build ...`
 - `example/` - There's some simple chatter, actions and zero copy chatter examples taken from [rules_ros2](https://github.com/mvukov/rules_ros2) for reference
