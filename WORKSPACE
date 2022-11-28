@@ -52,110 +52,125 @@ git_repository(
 
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
-
+rules_foreign_cc_dependencies()
 ############# TEST #############
 
 COMMIT = "main"
 CHECKSUM = ""
-http_archive(
-    name = "com_github_mvukov_rules_ros2",
-    urls = [
-        "https://github.com/mvukov/rules_ros2/archive/main.tar.gz",
-    ],
-    sha256 = CHECKSUM,
-    strip_prefix = "rules_ros2-" + COMMIT,
-)
-all_content = """filegroup(name = "all", srcs = glob(["**"]), visibility = ["//visibility:public"])"""
 
 new_git_repository(
-    name = "opencv",
+    name = "drake",
     branch = "master",
     build_file_content = all_content,
-    remote = "https://github.com/opencv/opencv",
+    remote = "https://github.com/RobotLocomotion/drake",
 )
 
-new_git_repository(
-    name = "sfml",
-    branch = "master",
-    build_file_content = all_content,
-    remote = "https://github.com/SFML/SFML",
-)
 
+load("@drake//tools/workspace:github.bzl", "github_archive")
 
 ## Adding Bazel_ROS2_Rules for drake-ros stuff to work ##
+DRAKE_ROS_commit = "main"
+DRAKE_ROS_sha256 = "b819c470da68e525201585524479bd42bd79daacfaa2729cb2f32757fc62052c"
 
-new_local_repository(
-    name = "bazel_ros2_rules",
-    path = "bazel_ros2_rules",
-    build_file = "BUILD.bazel",
-)
+
+github_archive(
+        name = "bazel_ros2_rules",
+        repository = "RobotLocomotion/drake-ros",
+        extra_strip_prefix = "bazel_ros2_rules",
+        commit = DRAKE_ROS_commit,
+        sha256 = DRAKE_ROS_sha256,
+        mirrors = {
+            "github":["https://github.com/RobotLocomotion/drake-ros/archive/main.tar.gz",],
+        }
+    )
+
 load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
 add_bazel_ros2_rules_dependencies()
 
-load("@com_github_mvukov_rules_ros2//repositories:repositories.bzl", "ros2_repositories")
-ros2_repositories()
+####### DRAKE STUFF #######
 
-load("@com_github_mvukov_rules_ros2//repositories:deps.bzl", "PIP_ANNOTATIONS", "ros2_deps")
 
-ros2_deps()
-
-load("@rules_python//python:repositories.bzl", "python_register_toolchains")
-
-python_register_toolchains(
-    name = "rules_ros2_python",
-    python_version = "3.8.13",
+github_archive(
+    name = "drake_ros_core",
+    repository = "RobotLocomotion/drake-ros",
+    extra_strip_prefix = "drake_ros_core",
+    commit = DRAKE_ROS_commit,
+    sha256 = DRAKE_ROS_sha256,
+    mirrors = {
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/main.tar.gz",],
+    }
 )
 
-load("@rules_python//python:pip.bzl", "pip_parse")
-load("@rules_ros2_python//:defs.bzl", python_interpreter_target = "interpreter")
-
-pip_parse(
-    name = "rules_ros2_pip_deps",
-    annotations = PIP_ANNOTATIONS,
-    python_interpreter_target = python_interpreter_target,
-    requirements_lock = "@com_github_mvukov_rules_ros2//:requirements_lock.txt",
+github_archive(
+    name = "drake_ros_tf2",
+    repository = "RobotLocomotion/drake-ros",
+    extra_strip_prefix = "drake_ros_tf2",
+    # TODO(drake-ros#158): Use provided BUILD file.
+    commit = DRAKE_ROS_commit,
+    sha256 = DRAKE_ROS_sha256,
+    mirrors = {
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/main.tar.gz",],
+    }
 )
 
-load(
-    "@rules_ros2_pip_deps//:requirements.bzl",
-    install_rules_ros2_pip_deps = "install_deps",
+github_archive(
+    name = "drake_ros_viz",
+    repository = "RobotLocomotion/drake-ros",
+    extra_strip_prefix = "drake_ros_viz",
+    # TODO(drake-ros#158): Use provided BUILD file.
+    commit = DRAKE_ROS_commit,
+    sha256 = DRAKE_ROS_sha256,
+    mirrors = {
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/main.tar.gz",],
+    }
 )
 
-install_rules_ros2_pip_deps()
+load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
+add_bazel_ros2_rules_dependencies()
 
-# Below are listed only deps needed by examples: if you just need ROS2 you don't
-# need to import/load anything below.
+load("@bazel_ros2_rules//ros2:defs.bzl", "ros2_archive")
+load("@bazel_ros2_rules//ros2:defs.bzl", "ros2_local_repository")
+
+ROS2_PACKAGES = [
+    "action_msgs",
+    "builtin_interfaces",
+    "console_bridge_vendor",
+    "rclcpp",
+    "rclcpp_action",
+    "rclpy",
+    "ros2cli",
+    "ros2cli_common_extensions",
+    "rosidl_default_generators",
+    "tf2_ros",
+    "tf2_ros_py",
+    "visualization_msgs",
+] + [
+    # These are possible RMW implementations. Uncomment one and only one to
+    # change implementations
+    "rmw_cyclonedds_cpp",
+    # "rmw_fastrtps_cpp",
+]
+# Use ROS 2
+ros2_archive(
+    name = "ros2",
+    include_packages = ROS2_PACKAGES,
+    sha256_url = "https://repo.ros2.org/ci_archives/drake-ros-underlay/ros2-rolling-linux-focal-amd64-ci-CHECKSUM",  # noqa
+    strip_prefix = "ros2-linux",
+    url = "https://repo.ros2.org/ci_archives/drake-ros-underlay/ros2-rolling-linux-focal-amd64-ci.tar.bz2",  # noqa
+)
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-# rules_docker is not strictly necessary, but interesting if you want to create
-# and/or push docker containers for the examples. The docker executable is
-# needed only if you want to run an image using Bazel.
 http_archive(
-    name = "io_bazel_rules_docker",
-    sha256 = "b1e80761a8a8243d03ebca8845e9cc1ba6c82ce7c5179ce2b295cd36f7e394bf",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.25.0/rules_docker-v0.25.0.tar.gz"],
+    name = "bazel_skylib",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
+    ],
+    sha256 = "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506",
 )
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+bazel_skylib_workspace()
 
-load(
-    "@io_bazel_rules_docker//repositories:repositories.bzl",
-    container_repositories = "repositories",
-)
+load("@drake//tools/workspace:default.bzl", "add_default_workspace")
 
-container_repositories()
-
-load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
-
-container_deps()
-
-load(
-    "@io_bazel_rules_docker//container:container.bzl",
-    "container_pull",
-)
-
-container_pull(
-    name = "ros_deploy_base",
-    digest = "sha256:54967c8f59e8607cd4a40c0d614b3391bf71112482f2e344d93ff455f60b3723",
-    registry = "docker.io",
-    repository = "mvukov/ros-deploy-base",
-)
+add_default_workspace()

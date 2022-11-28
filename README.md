@@ -9,8 +9,8 @@
 TODO: @adeeb10abbas - Add more details
 
 # Running examples 
-- `bazel run //chatter:talker`
-- `bazel run //chatter:listener`
+- `bazel run //example/chatter:talker`
+- `bazel run //example/chatter:listener`
 
 # Creating new functionalities 
 - Try to mimic any one of the examples provided (BUILD, environ.bzl etc.) as needed. 
