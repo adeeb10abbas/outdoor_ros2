@@ -1,4 +1,9 @@
-workspace(name = "playground")
+## Author : @adeeb10abbas
+## Date : 2022-31-12
+## Description : This file is used to build the workspace for the project
+## LICENSE : MIT
+
+workspace(name = "outdoorSLAM")
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -38,12 +43,6 @@ new_git_repository(
     remote = "https://github.com/opencv/opencv",
 )
 
-new_git_repository(
-    name = "sfml",
-    branch = "main",
-    build_file_content = all_content,
-    remote = "https://github.com/SFML/SFML",
-)
 git_repository(
     name = "rules_foreign_cc",
     branch = "main",
@@ -53,21 +52,27 @@ git_repository(
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
 rules_foreign_cc_dependencies()
-############# TEST #############
 
-COMMIT = "main"
-CHECKSUM = ""
+############# DRAKE #############
+DRAKE_TAG = "v1.10.0"
+DRAKE_CHECKSUM = "78bd251bcfb349c988ee9225175a803a50cc53eaacdeb3bba200dfc82dcea305"  # noqa
 
-new_git_repository(
+http_archive(
     name = "drake",
-    branch = "master",
-    build_file_content = all_content,
-    remote = "https://github.com/RobotLocomotion/drake",
+    sha256 = DRAKE_CHECKSUM,
+    strip_prefix = "drake-{}".format(DRAKE_TAG.lstrip("v")),
+    urls = [
+        "https://github.com/RobotLocomotion/drake/archive/refs/tags/{}.tar.gz".format(DRAKE_TAG),  # noqa
+    ],
 )
 
-
+load("@drake//tools/workspace:default.bzl", "add_default_workspace")
 load("@drake//tools/workspace:github.bzl", "github_archive")
 
+add_default_workspace()
+##########################
+
+##### DRAKE ROS #####
 ## Adding Bazel_ROS2_Rules for drake-ros stuff to work ##
 DRAKE_ROS_commit = "main"
 DRAKE_ROS_sha256 = "b819c470da68e525201585524479bd42bd79daacfaa2729cb2f32757fc62052c"
@@ -86,9 +91,6 @@ github_archive(
 
 load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
 add_bazel_ros2_rules_dependencies()
-
-####### DRAKE STUFF #######
-
 
 github_archive(
     name = "drake_ros_core",
@@ -158,19 +160,3 @@ ros2_archive(
     strip_prefix = "ros2-linux",
     url = "https://repo.ros2.org/ci_archives/drake-ros-underlay/ros2-rolling-linux-focal-amd64-ci.tar.bz2",  # noqa
 )
-
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-http_archive(
-    name = "bazel_skylib",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
-    ],
-    sha256 = "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506",
-)
-load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
-bazel_skylib_workspace()
-
-load("@drake//tools/workspace:default.bzl", "add_default_workspace")
-
-add_default_workspace()

@@ -7,14 +7,20 @@ load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
 cc_library(
     name = "test",
     srcs = ["test.cpp"],
+    visibility = ["//visibility:public"],
     deps = [
         "//:opencv",
         "@ros2//:rclcpp_cc",
+        "@drake//math",
         "@drake//systems/framework",
         "@drake_ros_core",
-        ##"@drake_ros_viz", 
         "@ros2//:geometry_msgs_cc",
         "@ros2//:visualization_msgs_cc",
-
+        "@drake//systems/primitives",
+        "@drake//multibody/plant",
+        "@drake//common",
+        "@drake_ros_viz",
+        "@drake_ros_tf2",
     ],
+
 )
