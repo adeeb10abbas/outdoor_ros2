@@ -1,4 +1,4 @@
-# Outdoor SLAM and autonomous navigation
+# Outdoor SLAM and Autonomous Navigation
 This is the mono repo for the outdoor SLAM and autonomous navigation project at Drexel University. The project is a collaboration between Drexel Wireless Systems Lab and Zhou Robotics Lab at Drexel College of Engineering.
 
 ## Building and running the mono Repo 
