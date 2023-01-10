@@ -74,8 +74,10 @@ add_default_workspace()
 
 ##### DRAKE ROS #####
 ## Adding Bazel_ROS2_Rules for drake-ros stuff to work ##
-DRAKE_ROS_commit = "main"
-DRAKE_ROS_sha256 = "b819c470da68e525201585524479bd42bd79daacfaa2729cb2f32757fc62052c"
+DRAKE_ROS_commit = "a4d976d6ef093031b4a08e31446527c814882501"
+DRAKE_ROS_sha256 = "9c9cf7dc02cdcb562d10db6c17664692057d775ecf8d170d20f4b0f8a63ba137"
+## Ref: ECousineau's awesome script - 
+## https://github.com/EricCousineau-TRI/repro/blob/50c3f52c6b745f686bef9567568437dc609a7f91/bazel/bazel_hash_and_cache.py
 
 
 github_archive(
@@ -156,7 +158,8 @@ ROS2_PACKAGES = [
 ros2_archive(
     name = "ros2",
     include_packages = ROS2_PACKAGES,
-    sha256_url = "https://repo.ros2.org/ci_archives/drake-ros-underlay/ros2-rolling-linux-focal-amd64-ci-CHECKSUM",  # noqa
+    sha256_url = "https://build.ros2.org/view/Hci/job/Hci__nightly-cyclonedds_ubuntu_jammy_amd64/lastSuccessfulBuild/artifact/ros2-humble-linux-jammy-amd64-ci-CHECKSUM",  # noqa
     strip_prefix = "ros2-linux",
-    url = "https://repo.ros2.org/ci_archives/drake-ros-underlay/ros2-rolling-linux-focal-amd64-ci.tar.bz2",  # noqa
+    url = "https://build.ros2.org/view/Hci/job/Hci__nightly-cyclonedds_ubuntu_jammy_amd64/lastSuccessfulBuild/artifact/ros2-humble-linux-jammy-amd64-ci.tar.bz2",  # noqa
 )
+
