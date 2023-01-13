@@ -34,25 +34,6 @@ load("@com_github_google_rules_install//:setup.bzl", "install_rules_setup")
 
 install_rules_setup()
 
-all_content = """filegroup(name = "all", srcs = glob(["**"]), visibility = ["//visibility:public"])"""
-
-new_git_repository(
-    name = "opencv",
-    branch = "4.x",
-    build_file_content = all_content,
-    remote = "https://github.com/opencv/opencv",
-)
-
-git_repository(
-    name = "rules_foreign_cc",
-    branch = "main",
-    remote = "https://github.com/bazelbuild/rules_foreign_cc",
-)
-
-load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
-
-rules_foreign_cc_dependencies()
-
 ############# DRAKE #############
 DRAKE_TAG = "v1.10.0"
 DRAKE_CHECKSUM = "78bd251bcfb349c988ee9225175a803a50cc53eaacdeb3bba200dfc82dcea305"  # noqa
@@ -163,3 +144,9 @@ ros2_archive(
     url = "https://build.ros2.org/view/Hci/job/Hci__nightly-cyclonedds_ubuntu_jammy_amd64/lastSuccessfulBuild/artifact/ros2-humble-linux-jammy-amd64-ci.tar.bz2",  # noqa
 )
 
+## Additional Libraries ## See list here: https://github.com/mjbots/bazel_deps
+load("//tools/workspace:default.bzl", "add_default_repositories")
+add_default_repositories()
+load("@com_github_mjbots_bazel_deps//tools/workspace:default.bzl",
+     bazel_deps_add = "add_default_repositories")
+bazel_deps_add()

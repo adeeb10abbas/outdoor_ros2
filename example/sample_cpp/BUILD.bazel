@@ -4,13 +4,13 @@ load("@ros2//:ros_cc.bzl", "ros_cc_test")
 load("@ros2//:ros_py.bzl", "ros_py_binary", "ros_py_test")
 load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
 
-cc_library(
+ros_cc_binary(
     name = "test",
     srcs = ["test.cpp"],
     visibility = ["//visibility:public"],
     deps = [
-        "//:opencv",
         "@ros2//:rclcpp_cc",
+        "@opencv",
         "@drake//math",
         "@drake//systems/framework",
         "@drake_ros_core",
