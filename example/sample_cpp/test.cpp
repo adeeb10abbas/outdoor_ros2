@@ -1,11 +1,9 @@
-#include "opencv2/core.hpp"
 #include <drake/systems/framework/diagram_builder.h>
 #include <drake/systems/framework/leaf_system.h>
-
 #include <drake_ros_core/drake_ros.h>
 #include <drake_ros_core/ros_interface_system.h>
-
 #include <drake_ros_viz/rviz_visualizer.h>
+#include <opencv2/core.hpp>
 
 int main() {
   /* This is a test file which serves as a basic example of how to use the drake_ros_* packages with the
