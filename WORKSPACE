@@ -55,8 +55,8 @@ add_default_workspace()
 
 ##### DRAKE ROS #####
 ## Adding Bazel_ROS2_Rules for drake-ros stuff to work ##
-DRAKE_ROS_commit = "a4d976d6ef093031b4a08e31446527c814882501"
-DRAKE_ROS_sha256 = "9c9cf7dc02cdcb562d10db6c17664692057d775ecf8d170d20f4b0f8a63ba137"
+DRAKE_ROS_commit = "7867b38e9b321823c692e43894963d971510dedf"
+DRAKE_ROS_sha256 = "1948da0d0912857a6b61c1f57c153a6d74d80b49b90e0edfd114e4efcc0bcd56"
 ## Ref: ECousineau's awesome script - 
 ## https://github.com/EricCousineau-TRI/repro/blob/50c3f52c6b745f686bef9567568437dc609a7f91/bazel/bazel_hash_and_cache.py
 
