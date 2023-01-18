@@ -129,6 +129,10 @@ ROS2_PACKAGES = [
     "tf2_ros",
     "tf2_ros_py",
     "visualization_msgs",
+    "rosidl_default_runtime",
+    "image_transport",
+    "vision_opencv",
+    "cv_bridge",
 ] + [
     # These are possible RMW implementations. Uncomment one and only one to
     # change implementations
@@ -136,12 +140,10 @@ ROS2_PACKAGES = [
     # "rmw_fastrtps_cpp",
 ]
 # Use ROS 2
-ros2_archive(
+ros2_local_repository(
     name = "ros2",
+    workspaces = [ "/home/arrowhead/ros2_ws/install", "/opt/ros/humble",],
     include_packages = ROS2_PACKAGES,
-    sha256_url = "https://build.ros2.org/view/Hci/job/Hci__nightly-cyclonedds_ubuntu_jammy_amd64/lastSuccessfulBuild/artifact/ros2-humble-linux-jammy-amd64-ci-CHECKSUM",  # noqa
-    strip_prefix = "ros2-linux",
-    url = "https://build.ros2.org/view/Hci/job/Hci__nightly-cyclonedds_ubuntu_jammy_amd64/lastSuccessfulBuild/artifact/ros2-humble-linux-jammy-amd64-ci.tar.bz2",  # noqa
 )
 
 ## Additional Libraries ## See list here: https://github.com/mjbots/bazel_deps

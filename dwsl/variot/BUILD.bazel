@@ -1,0 +1,30 @@
+
+load("@ros2//:ros_cc.bzl", "ros_cc_binary")
+load("@ros2//:ros_cc.bzl", "ros_cc_test")
+load("@ros2//:ros_py.bzl", "ros_py_binary", "ros_py_test")
+load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
+
+exports_files(["sample_img.png"])
+ros_cc_binary(
+    name = "img_pub",
+    srcs = ["img_pub.cpp"],
+    visibility = ["//visibility:public"],
+    data = [":sample_img.png"],
+    deps = [
+        "@ros2//:rclcpp_cc",
+        "@opencv",
+        "@drake//math",
+        "@drake//systems/framework",
+        "@drake_ros_core",
+        "@ros2//:geometry_msgs_cc",
+        "@ros2//:visualization_msgs_cc",
+        "@ros2//:vision_opencv_cc",
+        "@ros2//:image_transport_cc",
+        "@drake//systems/primitives",
+        "@drake//multibody/plant",
+        "@drake//common",
+        "@drake_ros_viz",
+        "@drake_ros_tf2",
+    ],
+
+)
