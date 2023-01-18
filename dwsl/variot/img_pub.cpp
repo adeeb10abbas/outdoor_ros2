@@ -59,7 +59,7 @@ class variotImage : public rclcpp::Node
       count_++;
       // Publish a sample file to the variot/images topic
       // Check if the file exists
-      std::string path = "sample_img.png";
+      std::string path = "dwsl/variot/sample_data/sample_img.png";
       if (!rcpputils::fs::exists(path)) {
         RCLCPP_ERROR(this->get_logger(), "File does not exist");
         return;
