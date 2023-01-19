@@ -3,18 +3,12 @@ load("@ros2//:ros_cc.bzl", "ros_cc_binary")
 load("@ros2//:ros_cc.bzl", "ros_cc_test")
 load("@ros2//:ros_py.bzl", "ros_py_binary", "ros_py_test")
 load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
-
-
-filegroup(
-    name = "sample_data",
-    srcs = glob(["sample_data/**"]),
-    visibility = ["//__pkg__"],
-)
+load("@drake//tools/install:install_data.bzl", "install_data")
 
 ros_cc_binary(
     name = "img_pub",
     srcs = ["img_pub.cpp"],
-    data = ["sample_data"],
+    data = ["//dwsl/variot:sample_data", "//data:rover"],
     deps = [
         "@ros2//:rclcpp_cc",
         "@opencv",
@@ -31,6 +25,6 @@ ros_cc_binary(
         "@drake_ros_viz",
         "@drake_ros_tf2",
     ],
-    visibility = ["//__pkg__"],
 
 )
+install_data()
