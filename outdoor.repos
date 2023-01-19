@@ -1,0 +1,13 @@
+#Author: adeeb10abbas
+#Description: This file contains the repositories for this repository that are required to build the package
+#             This file is used by the vcstool tool to download the repositories
+#             Use this in your overlay workspace to keep the installations containerized in different workspaces
+#License: MIT
+
+
+repositories:
+  ros_perception/vision_opencv:
+    ## Enables use of OpenCV in ROS2
+    type: git
+    url: https://github.com/ros-perception/vision_opencv.git
+    version: rolling
