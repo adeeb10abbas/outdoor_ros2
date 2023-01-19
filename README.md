@@ -12,6 +12,7 @@ This is the mono repo for the outdoor SLAM and autonomous navigation project at 
   sudo apt-get update
   rosdep update
   rosdep install --from-paths src --ignore-src -r -y
+  colcon build --symlink-install
   ```
 - Bind a local ROS 2 workspace underlay in your WORKSPACE (given in the root of this project):
   ```starlark
