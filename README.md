@@ -11,6 +11,7 @@ This is the mono repo for the outdoor SLAM and autonomous navigation project at 
       workspace = ["/opt/ros/<distro>"],
   )
   ```
+  NOTE: Multiple ROS workspaces can be added and just need to be added as a string in a `workspace` list.
 - To build: `bazel build <target>` and to run `bazel run <target>`; For more please read the [Bazel documentation](https://bazel.build/). 
 - Bazel ROS2 rules from [drake-ros](https://github.com/RobotLocomotion/drake-ros)
 - Created an `sample_cpp` sub directory to show how to pull in and build external useful libs like drake-ros, drake, OpenCV and use it. 
