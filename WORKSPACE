@@ -68,7 +68,7 @@ github_archive(
         commit = DRAKE_ROS_commit,
         sha256 = DRAKE_ROS_sha256,
         mirrors = {
-            "github":["https://github.com/RobotLocomotion/drake-ros/ref/tags/main.tar.gz",],
+            "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
         }
     )
 
@@ -82,7 +82,7 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/refs/tags/main.tar.gz",],
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
     }
 )
 
@@ -94,7 +94,7 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/refs/tags/main.tar.gz",],
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
     }
 )
 
@@ -106,7 +106,7 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/refs/tags/main.tar.gz",],
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
     }
 )
 
