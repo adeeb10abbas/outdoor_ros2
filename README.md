@@ -35,6 +35,7 @@ This is the mono repo for the outdoor SLAM and autonomous navigation project at 
 - List of external packages being pulled in currently and available to use:
   - [drake](https://github.com/RobotLocomotion/drake)
   - [drake-ros](https://github.com/RobotLocomotion/drake-ros)   
+  - [Mujoco](https://github.com/deepmind/mujoco/)
   - via [bazel-deps](https://github.com/mjbots/bazel_deps):
     - opencv
     - ffmpeg (and many codecs)
