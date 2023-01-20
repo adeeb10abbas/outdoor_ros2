@@ -47,6 +47,29 @@ http_archive(
     ],
 )
 
+## Adding the following to add MUJOCO support to the bazel workspace ##
+http_archive(
+    name = "mujoco",
+    sha256 = "70efb3be950674913703e594b4c4b70f5bbb7e85f89a58ebb519dfde82066652",
+    urls = ["https://github.com/deepmind/mujoco/releases/download/2.3.1/mujoco-2.3.1-linux-x86_64.tar.gz"],
+    strip_prefix = "mujoco-2.3.1",
+    build_file = "//external:mujoco.BUILD",
+)
+
+http_archive(
+    name = "qhull",
+    urls = ["https://github.com/qhull/qhull/archive/HEAD.tar.gz"],
+    build_file = "//external:qhull.BUILD",
+)
+new_git_repository(
+    name = "lodepng",
+    build_file = "lodepng.BUILD",
+    commit = "5601b8272a6850b7c5d693dd0c0e16da50be8d8d",
+    remote = "https://github.com/lvandeve/lodepng.git",
+    shallow_since = "1641772872 +0100",
+)
+## End of MUJOCO support ##
+
 load("@drake//tools/workspace:default.bzl", "add_default_workspace")
 load("@drake//tools/workspace:github.bzl", "github_archive")
 
@@ -99,6 +122,18 @@ github_archive(
 )
 
 github_archive(
+    name = "ros2_example_bazel_installed",
+    repository = "RobotLocomotion/drake-ros",
+    extra_strip_prefix = "ros2_example_bazel_installed",
+    # TODO(drake-ros#158): Use provided BUILD file.
+    commit = DRAKE_ROS_commit,
+    sha256 = DRAKE_ROS_sha256,
+    mirrors = {
+        "github":["https://github.com/RobotLocomotion/drake-ros/refs/tags/main.tar.gz",],
+    }
+)
+
+github_archive(
     name = "drake_ros_viz",
     repository = "RobotLocomotion/drake-ros",
     extra_strip_prefix = "drake_ros_viz",
@@ -139,6 +174,7 @@ ROS2_PACKAGES = [
     "rmw_cyclonedds_cpp",
     # "rmw_fastrtps_cpp",
 ]
+
 # Use ROS 2
 ros2_local_repository(
     name = "ros2",

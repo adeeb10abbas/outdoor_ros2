@@ -11,6 +11,7 @@ ros_cc_binary(
     deps = [
         "@ros2//:rclcpp_cc",
         "@opencv",
+        "@mujoco//:C_mujoco",
         "@drake//math",
         "@drake//systems/framework",
         "@drake_ros_core",
