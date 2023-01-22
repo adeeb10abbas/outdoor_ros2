@@ -47,6 +47,12 @@ ros_py_binary(
     deps = [
      requirement("websockets"),
      "@ros2//:rclpy_py",
+     requirement("opencv-python"),
+     requirement("pyopengl"),
+     requirement("glfw"),
+     requirement("absl_py"),
+     requirement("six"),
+     requirement("mujoco")
     ],
     
 

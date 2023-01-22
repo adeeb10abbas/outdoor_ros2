@@ -2,9 +2,17 @@ import websockets
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
+import cv2
+import numpy as np
+import mujoco
 
 print("Starting websocket server")
 print(websockets.__version__)
+print(f"the opencv version is {cv2.__version__}")
+print(f"the mujoco version is {mujoco.mj_version()}")
+
+
+camera = mujoco.MjvCamera()
 
 class MinimalPublisher(Node):
 

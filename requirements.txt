@@ -1,2 +1,8 @@
 websockets==10.4
-mujoco==2.3.1.post1
+opencv-python==4.7.0.68
+numpy==1.21.2
+mujoco==2.1.2
+pyopengl==3.1.5
+glfw==2.1.0
+absl_py==0.13.0
+six==1.16.0
