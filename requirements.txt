@@ -1,0 +1,2 @@
+websockets==10.4
+mujoco==2.3.1.post1

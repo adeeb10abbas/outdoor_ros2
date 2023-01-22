@@ -6,7 +6,7 @@ load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
 load("@drake//tools/install:install_data.bzl", "install_data")
 
 ros_cc_binary(
-    name = "img_pub",
+    name = "img_pub_cc",
     srcs = ["img_pub.cpp"],
     data = ["//dwsl/variot:sample_data", "//data:rover"],
     deps = [
@@ -25,6 +25,30 @@ ros_cc_binary(
         "@drake_ros_viz",
         "@drake_ros_tf2",
     ],
+
+)
+
+load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load(
+    "@pip//:requirements.bzl",
+    "data_requirement",
+    "dist_info_requirement",
+    "entry_point",
+    "requirement",
+)
+
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+
+ros_py_binary(
+    name = "image_pub_py",
+    srcs = ["image_pub_py.py"],
+    deps = [
+     requirement("websockets"),
+     "@ros2//:rclpy_py",
+    ],
+    
 
 )
 install_data()
