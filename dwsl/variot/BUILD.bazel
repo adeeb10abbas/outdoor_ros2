@@ -6,7 +6,7 @@ load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
 load("@drake//tools/install:install_data.bzl", "install_data")
 
 ros_cc_binary(
-    name = "img_pub",
+    name = "img_pub_cc",
     srcs = ["img_pub.cpp"],
     data = ["//dwsl/variot:sample_data", "//data:rover"],
     deps = [
@@ -25,6 +25,5 @@ ros_cc_binary(
         "@drake_ros_viz",
         "@drake_ros_tf2",
     ],
-
 )
 install_data()

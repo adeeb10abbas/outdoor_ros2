@@ -188,3 +188,23 @@ add_default_repositories()
 load("@com_github_mjbots_bazel_deps//tools/workspace:default.bzl",
      bazel_deps_add = "add_default_repositories")
 bazel_deps_add()
+
+## All the Python Stuff ##
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
+py_repositories()
+python_register_toolchains(
+    name = "python3_10",
+    python_version = "3.10",
+)
+
+load("@python3_10//:defs.bzl", "interpreter")
+load("@rules_python//python:pip.bzl", "pip_install")
+
+pip_install(
+    name = "pip",
+    requirements = "//:requirements.txt",
+)
+load("@pip//:requirements.bzl", "install_deps")
+# Initialize repositories for all packages in requirements.txt.
+install_deps()
+## End Python Stuff ##
