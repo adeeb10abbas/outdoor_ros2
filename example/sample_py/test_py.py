@@ -5,15 +5,18 @@ from std_msgs.msg import String
 import cv2
 import numpy as np
 import mujoco
+import pydrake.all
 
-print("Starting websocket server")
-print(websockets.__version__)
+# Checks all the dependencies are working
+print("Websockets version: {0}".format(websockets.__version__))
 print(f"the opencv version is {cv2.__version__}")
-print(f"the mujoco version is {mujoco.mj_version()}")
-
-
+print(f"the mujoco version is {mujoco.mj_versionString()}")
 camera = mujoco.MjvCamera()
+print(f"the numpy version is {np.__version__}")
+print(f"Random operation with pydrake: {pydrake.math.abs(-500000)}")
 
+#Taken from ROS tutorials as a proof of concept showing 
+#that the python code can run in this bazel workspace with ROS 2
 class MinimalPublisher(Node):
 
     def __init__(self):

@@ -1,0 +1,23 @@
+load("@ros2//:ros_py.bzl", "ros_py_binary", "ros_py_test")
+load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
+load("@drake//tools/install:install_data.bzl", "install_data")
+load("@pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+
+ros_py_binary(
+    name = "test_py",
+    srcs = ["test_py.py"],
+    deps = [
+     "@ros2//:rclpy_py",
+     "@drake//bindings/pydrake:pydrake",
+     requirement("websockets"),
+     requirement("opencv-python"),
+     requirement("pyopengl"),
+     requirement("pegl"),
+     requirement("absl_py"),
+     requirement("six"),
+     requirement("mujoco")
+    ],
+)
+install_data()
