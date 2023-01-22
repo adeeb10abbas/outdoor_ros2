@@ -44,7 +44,7 @@ This is the mono repo for the outdoor SLAM and Autonomous Navigation project at 
     - eigen
     - boost
     - fmt
-  - Python3 (3.10) packages: See [requirements.txt](https://github.com/zhourobotics/outdoor/blob/main/requirements.txt)
+  - Python3 (3.10) packages: See [requirements.txt](https://github.com/zhourobotics/outdoor_slam_ros2/blob/main/requirements.txt)
 
 ## Maintainers:
  - Adeeb Abbas: [@adeeb10abbas](https://github.com/adeeb10abbas)
