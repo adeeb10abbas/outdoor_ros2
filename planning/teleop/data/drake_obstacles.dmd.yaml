@@ -1,0 +1,276 @@
+directives:
+- add_model:
+    name: ground
+    file: package://hayden/ground.sdf
+- add_weld:
+    parent: world
+    child: ground::base
+    X_PC:
+        translation: [0, 0, 0]
+- add_model:
+    name: mecanum_base
+    file: package://hayden/mecanum_base.urdf
+    default_free_body_pose:
+        chassis:
+            translation: [0, 0, 0.055]
+- add_model:
+    name: box
+    file: package://hayden/obstacles.sdf
+- add_weld:
+    parent: world
+    child: box::side_ramp
+    X_PC:
+        translation: [0, 0, 0]
+- add_model:
+    name: obstacle1
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [0.6096, 0, 0]
+- add_weld:
+    parent: world
+    child: obstacle1::obstacles
+    X_PC:
+        translation: [0.6096, 0, 0]
+- add_model:
+    name: obstacle2
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [-0.6096, 0, 0]
+- add_weld:
+    parent: world
+    child: obstacle2::obstacles
+    X_PC:
+        translation: [-0.6096, 0, 0]
+- add_model:
+    name: obstacle3
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [0, 0.6096, 0]
+- add_weld:
+    parent: world
+    child: obstacle3::obstacles
+    X_PC:
+        translation: [0, 0.6096, 0]
+- add_model:
+    name: obstacle4
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [0, -0.6096, 0]
+- add_weld:
+    parent: world
+    child: obstacle4::obstacles
+    X_PC:
+        translation: [0, -0.6096, 0]
+- add_model:
+    name: bump1
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [0.61, 0.61, 0]
+- add_weld:
+    parent: world
+    child: bump1::bumps
+    X_PC:
+        translation: [0.61, 0.61, 0]
+- add_model:
+    name: bump2
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-0.61, 0.61, 0]
+- add_weld:
+    parent: world
+    child: bump2::bumps
+    X_PC:
+        translation: [-0.61, 0.61, 0]
+- add_model:
+    name: bump3
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-0.61, -0.61, 0]
+- add_weld:
+    parent: world
+    child: bump3::bumps
+    X_PC:
+        translation: [-0.61, -0.61, 0]
+- add_model:
+    name: bump4
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [0.61, -0.61, 0]
+- add_weld:
+    parent: world
+    child: bump4::bumps
+    X_PC:
+        translation: [0.61, -0.61, 0]
+- add_model:
+    name: obstacle5
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [0, -1.25, 0]
+- add_weld:
+    parent: world
+    child: obstacle5::obstacles
+    X_PC:
+        translation: [0, -1.25, 0]
+- add_model:
+    name: obstacle6
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [0, 1.25, 0]
+- add_weld:
+    parent: world
+    child: obstacle6::obstacles
+    X_PC:
+        translation: [0, 1.25, 0]
+- add_model:
+    name: obstacle7
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [1.25, 0, 0]
+- add_weld:
+    parent: world
+    child: obstacle7::obstacles
+    X_PC:
+        translation: [1.25, 0, 0]
+- add_model:
+    name: obstacle8
+    file: package://hayden/obstacle_boxes.sdf
+    default_free_body_pose:
+        obstacles:
+            translation: [-1.25, 0, 0]
+- add_weld:
+    parent: world
+    child: obstacle8::obstacles
+    X_PC:
+        translation: [-1.25, 0, 0]
+- add_model:
+    name: bump5
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-1.22, -0.61, 0]
+- add_weld:
+    parent: world
+    child: bump5::bumps
+    X_PC:
+        translation: [-1.22, -0.61, 0]
+- add_model:
+    name: bump6
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-1.22, -1.22, 0]
+- add_weld:
+    parent: world
+    child: bump6::bumps
+    X_PC:
+        translation: [-1.22, -1.22, 0]
+- add_model:
+    name: bump7
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-0.61, -1.22, 0]
+- add_weld:
+    parent: world
+    child: bump7::bumps
+    X_PC:
+        translation: [-0.61, -1.22, 0]
+- add_model:
+    name: bump8
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [1.22, -0.61, 0]
+- add_weld:
+    parent: world
+    child: bump8::bumps
+    X_PC:
+        translation: [1.22, -0.61, 0]
+- add_model:
+    name: bump9
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [1.22, -1.22, 0]
+- add_weld:
+    parent: world
+    child: bump9::bumps
+    X_PC:
+        translation: [1.22, -1.22, 0]
+- add_model:
+    name: bump10
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [0.61, -1.22, 0]
+- add_weld:
+    parent: world
+    child: bump10::bumps
+    X_PC:
+        translation: [0.61, -1.22, 0]
+- add_model:
+    name: bump11
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-1.22, 0.61, 0]
+- add_weld:
+    parent: world
+    child: bump11::bumps
+    X_PC:
+        translation: [-1.22, 0.61, 0]
+- add_model:
+    name: bump12
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-1.22, 1.22, 0]
+- add_weld:
+    parent: world
+    child: bump12::bumps
+    X_PC:
+        translation: [-1.22, 1.22, 0]
+- add_model:
+    name: bump13
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [-0.61, 1.22, 0]
+- add_weld:
+    parent: world
+    child: bump13::bumps
+    X_PC:
+        translation: [-0.61, 1.22, 0]
+- add_model:
+    name: bump14
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [1.22, 0.61, 0]
+- add_weld:
+    parent: world
+    child: bump14::bumps
+    X_PC:
+        translation: [1.22, 0.61, 0]
+- add_model:
+    name: bump15
+    file: package://hayden/obstacles_bumps.sdf
+    default_free_body_pose:
+        bumps:
+            translation: [0.61, 1.22, 0]
+- add_weld:
+    parent: world
+    child: bump15::bumps
+    X_PC:
+        translation: [0.61, 1.22, 0]

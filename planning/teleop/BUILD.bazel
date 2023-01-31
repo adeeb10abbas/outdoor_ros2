@@ -1,0 +1,18 @@
+load("@ros2//:ros_py.bzl", "ros_py_binary", "ros_py_test")
+load("@pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+load("@drake//tools/install:install_data.bzl", "install_data")
+
+ros_py_binary(
+    name = "punito",
+    srcs = ["punito.py"],
+    data = [
+        "//planning/teleop:data",
+    ],
+    deps = [
+     "@drake//bindings/pydrake:pydrake",
+    ],
+)
+exports_files(["data"])
+install_data()
