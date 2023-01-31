@@ -4,7 +4,7 @@ This is the mono repo for the outdoor SLAM and Autonomous Navigation project at 
 ## Supported Configurations:
   - Ubuntu 22.04 + ROS2 Humble
   - Ubuntu 20.04 + ROS2 Rolling
-  - Architecture: x86_64 (amd64), aarch64 (experimental)
+  - Architecture: x86_64 (amd64), aarch64 (experimental) and Mac M1/Apple Silicon (all `plannning/*` targets)
   - Bazel >= 5.0
 
 ## Steps to build and run the projects
