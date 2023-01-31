@@ -4,6 +4,9 @@ load("@ros2//:ros_cc.bzl", "ros_cc_test")
 load("@ros2//:ros_py.bzl", "ros_py_binary", "ros_py_test")
 load("@ros2//:rosidl.bzl", "rosidl_interfaces_group")
 load("@drake//tools/install:install_data.bzl", "install_data")
+load("@pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 
 ros_cc_binary(
     name = "img_pub_cc",
@@ -26,4 +29,19 @@ ros_cc_binary(
         "@drake_ros_tf2",
     ],
 )
+ros_py_binary(
+    name = "img_pub_py",
+    srcs = ["img_pub_py.py"],
+    data = ["//dwsl/variot:sample_data", "//data:rover"],
+    deps = [
+        "@ros2//:rclpy_py",
+        requirement("numpy"),
+        requirement("opencv-python"),
+        requirement("websockets"),
+        "@ros2//:geometry_msgs_py",
+        "@ros2//:visualization_msgs_py",
+        "@ros2//:cv_bridge_py",
+    ],
+)
+
 install_data()
