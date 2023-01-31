@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 import numpy as np
+import websocket
 
 class VariotImage(Node):
     def __init__(self):
@@ -45,6 +46,9 @@ class VariotImage(Node):
         self.publisher_.publish(message)
         self.get_logger().info(f"Publishing Image with Data: {message.header.frame_id}")
         self.count_ += 1
+
+        # Add websocket publisher here
+        
 
 def main(args=None):
     rclpy.init(args=args)
