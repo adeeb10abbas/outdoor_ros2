@@ -35,8 +35,8 @@ load("@com_github_google_rules_install//:setup.bzl", "install_rules_setup")
 install_rules_setup()
 
 ############# DRAKE #############
-DRAKE_TAG = "v1.10.0"
-DRAKE_CHECKSUM = "78bd251bcfb349c988ee9225175a803a50cc53eaacdeb3bba200dfc82dcea305"  # noqa
+DRAKE_TAG = "v1.12.0"
+DRAKE_CHECKSUM = "b9fc9e07d6741b51b028c9ee3a036be507b90268b75b70a6a1c75e4de04339ad"  # noqa
 
 http_archive(
     name = "drake",
@@ -54,6 +54,14 @@ http_archive(
     urls = ["https://github.com/deepmind/mujoco/releases/download/2.3.1/mujoco-2.3.1-linux-x86_64.tar.gz"],
     strip_prefix = "mujoco-2.3.1",
     build_file = "//external:mujoco.BUILD",
+)
+
+new_git_repository(
+    name = "tinyxml2",
+    build_file = "//external:tinyxml2.BUILD",
+    commit = "e45d9d16d430a3f5d3eee9fe40d5e194e1e5e63a",
+    remote = "https://github.com/leethomason/tinyxml2.git",
+    shallow_since = "1648934420 -0700",
 )
 
 http_archive(
@@ -190,8 +198,7 @@ load("@com_github_mjbots_bazel_deps//tools/workspace:default.bzl",
 bazel_deps_add()
 
 ## All the Python Stuff ##
-load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
-py_repositories()
+load("@rules_python//python:repositories.bzl", "python_register_toolchains")
 python_register_toolchains(
     name = "python3_10",
     python_version = "3.10",
