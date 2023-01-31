@@ -38,6 +38,7 @@ ros_py_binary(
         requirement("numpy"),
         requirement("opencv-python"),
         requirement("websockets"),
+        requirement("tb-mqtt-client"),
         "@ros2//:geometry_msgs_py",
         "@ros2//:visualization_msgs_py",
         "@ros2//:cv_bridge_py",
