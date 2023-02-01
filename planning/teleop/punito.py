@@ -129,7 +129,7 @@ def teleop():
                                                     time_step=time_step)
     #plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
     parser = Parser(plant)
-    parser.package_map().PopulateFromFolder(".")
+    parser.package_map().AddPackageXml("planning/teleop/data/package.xml")
     parser.AddModels('planning/teleop/data/drake_obstacles.dmd.yaml')
     plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
     plant.Finalize()
