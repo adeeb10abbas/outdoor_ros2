@@ -35,14 +35,30 @@ ros_py_binary(
     data = ["//dwsl/variot:sample_data", "//data:rover"],
     deps = [
         "@ros2//:rclpy_py",
+        "@ros2//:visualization_msgs_py",
         requirement("numpy"),
         requirement("opencv-python"),
         requirement("websockets"),
         requirement("tb-mqtt-client"),
         "@ros2//:geometry_msgs_py",
-        "@ros2//:visualization_msgs_py",
         "@ros2//:cv_bridge_py",
     ],
 )
+
+ros_py_binary(
+    name = "rospy_websocket_client_py",
+    srcs = ["rospy_websocket_client_py.py"],
+    deps = [
+        "@ros2//:rclpy_py",
+        "@ros2//:visualization_msgs_py",
+        requirement("numpy"),
+        requirement("opencv-python"),
+        requirement("websockets"),
+        requirement("tb-mqtt-client"),
+        "@ros2//:geometry_msgs_py",
+        "@ros2//:cv_bridge_py",
+    ],
+)
+
 
 install_data()
