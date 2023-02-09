@@ -63,8 +63,8 @@ class ConnectionWebsocket:
 
 
 if __name__ == "__main__":
-    ws_host = "127.0.1.1"
-    ws_port = "8000"
+    ws_host = "localhost"
+    ws_port = "22"
     ros_node = "variotImage_pub"
 
     connection_websocket = ConnectionWebsocket(ws_host, ws_port, ros_node)
