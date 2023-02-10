@@ -79,7 +79,6 @@ def route_handler(websocket, data):
     # Send the route data to the client
     return websocket.send(json.dumps(data))
 
-
 def main():
     """Main function to start the websocket server."""
     server = WebsocketServer('localhost', 8765)
