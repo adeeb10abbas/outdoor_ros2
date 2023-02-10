@@ -1,0 +1,15 @@
+load("@pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+load("@drake//tools/install:install_data.bzl", "install_data")
+
+py_binary(
+    name = "ackermann",
+    srcs = ["ackermann.py"],
+    data = [
+        "//planning/predictive_sampling:data",
+    ],
+    deps = [
+     "@drake//bindings/pydrake:pydrake",
+    ],
+)
+install_data()
