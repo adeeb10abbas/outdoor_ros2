@@ -123,7 +123,7 @@ class MyController(LeafSystem):
         wheel_velocity = state[self._wheel_velocity_indices]
         desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetFromVector([0.0000001, 0.00000001, 0.0000001, 0.0000001])
+        output.SetVelocities([0.0000001, 0.00000001, 0.0000001, 0.0000001])
 
 def teleop():
     builder = DiagramBuilder()
