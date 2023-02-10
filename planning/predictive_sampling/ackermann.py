@@ -109,17 +109,21 @@ class MyController(LeafSystem):
             [1,  1,  (lx+ly)],
             [1, -1, -(lx+ly)],
         ]) / wheel_radius
+    
+    def AckermannTorques(self, context, output):
+        """
+        This is the method that I wrote to implement Ackermann steering.
+        """
+        return NULL
 
     def CalcTorques(self, context, output):
         # From anzu/punito/sim/robot_master_controller.cc
         command = self.get_input_port(0).Eval(context)
         state = self.get_input_port(1).Eval(context)
         wheel_velocity = state[self._wheel_velocity_indices]
-
         desired_wheel_velocity = self._vehicle_to_wheel_map @ command
-        torque = self._wheel_velocity_kp * (desired_wheel_velocity - wheel_velocity)
-
-        output.SetFromVector(torque)
+        
+        output.SetFromVector([0.0000001, 0.00000001, 0.0000001, 0.0000001])
 
 def teleop():
     builder = DiagramBuilder()
@@ -136,7 +140,9 @@ def teleop():
     robot_instance = plant.GetModelInstanceByName("ackermann_base")
 
     controller = builder.AddSystem(MyController(plant, robot_instance))
+
     builder.Connect(plant.get_state_output_port(), controller.get_input_port(1))
+
     builder.Connect(controller.get_output_port(),
                     plant.get_actuation_input_port())
 
@@ -198,8 +204,8 @@ def teleop():
     # return
 
     meshcat.AddButton("Stop Simulation", "Escape")
-    # while meshcat.GetButtonClicks("Stop Simulation") < 1:
-    #     simulator.AdvanceTo(simulator.get_context().get_time() + 2.0)
+    while meshcat.GetButtonClicks("Stop Simulation") < 1:
+        simulator.AdvanceTo(simulator.get_context().get_time() + 2.0)
     meshcat.DeleteButton("Stop Simulation")
 
 
