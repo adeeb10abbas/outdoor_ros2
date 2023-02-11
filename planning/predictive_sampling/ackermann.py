@@ -82,16 +82,16 @@ class MyController(LeafSystem):
     def __init__(self, plant, model_instance):
         LeafSystem.__init__(self)
         self._wheel_velocity_indices = np.array([
-            plant.GetJointByName('front_left_joint', model_instance).velocity_start(),
-            plant.GetJointByName('front_right_joint', model_instance).velocity_start(),
-            plant.GetJointByName('back_left_joint', model_instance).velocity_start(),
-            plant.GetJointByName('back_right_joint', model_instance).velocity_start(),
+            # plant.GetJointByName('front_left_joint', model_instance).velocity_start(),
+            # plant.GetJointByName('front_right_joint', model_instance).velocity_start(),
+            plant.GetJointByName('rear_left_wheel_joint', model_instance).velocity_start(),
+            plant.GetJointByName('rear_right_wheel_joint', model_instance).velocity_start(),
         ]) + plant.num_positions()
 
         # command is the [vx, vy, wz] components of V_WRobot_Robot.
         self.DeclareVectorInputPort("command", 3)
         self.DeclareVectorInputPort("state", plant.num_multibody_states())
-        self.DeclareVectorOutputPort("motor_torque", 4, self.CalcTorques)
+        self.DeclareVectorOutputPort("motor_torque", 2, self.CalcTorques)
 
         # These should match the parameters used to create the URDF.
         wheel_radius = 0.045 + (0.015 / 2) # hub_radius + (roller_diameter / 2).
@@ -123,7 +123,7 @@ class MyController(LeafSystem):
         wheel_velocity = state[self._wheel_velocity_indices]
         desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetVelocities([0.0000001, 0.00000001, 0.0000001, 0.0000001])
+        output.SetFromVector([0.00001, 0.00001])
 
 def teleop():
     builder = DiagramBuilder()
@@ -137,7 +137,7 @@ def teleop():
     parser.AddModels('planning/predictive_sampling/data/drake_obstacles.dmd.yaml')
     plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
     plant.Finalize()
-    robot_instance = plant.GetModelInstanceByName("ackermann_base")
+    robot_instance = plant.GetModelInstanceByName("base_link")
 
     controller = builder.AddSystem(MyController(plant, robot_instance))
 

@@ -8,8 +8,8 @@ directives:
     X_PC:
         translation: [0, 0, 0]
 - add_model:
-    name: ackermann_base
-    file: package://ackermann/yahboomcar_X3.urdf
+    name: base_link
+    file: package://ackermann/limo_ackermann.urdf
     default_free_body_pose:
         base_link:
             translation: [0, 0, 0.055]
