@@ -82,16 +82,16 @@ class MyController(LeafSystem):
     def __init__(self, plant, model_instance):
         LeafSystem.__init__(self)
         self._wheel_velocity_indices = np.array([
-            # plant.GetJointByName('front_left_joint', model_instance).velocity_start(),
-            # plant.GetJointByName('front_right_joint', model_instance).velocity_start(),
-            plant.GetJointByName('rear_left_wheel_joint', model_instance).velocity_start(),
-            plant.GetJointByName('rear_right_wheel_joint', model_instance).velocity_start(),
+            plant.GetJointByName('front_left_wheel', model_instance).velocity_start(),
+            plant.GetJointByName('front_right_wheel', model_instance).velocity_start(),
+            plant.GetJointByName('rear_left_wheel', model_instance).velocity_start(),
+            plant.GetJointByName('rear_right_wheel', model_instance).velocity_start(),
         ]) + plant.num_positions()
 
         # command is the [vx, vy, wz] components of V_WRobot_Robot.
         self.DeclareVectorInputPort("command", 3)
         self.DeclareVectorInputPort("state", plant.num_multibody_states())
-        self.DeclareVectorOutputPort("motor_torque", 2, self.CalcTorques)
+        self.DeclareVectorOutputPort("motor_torque", 6, self.CalcTorques)
 
         # These should match the parameters used to create the URDF.
         wheel_radius = 0.045 + (0.015 / 2) # hub_radius + (roller_diameter / 2).
@@ -123,7 +123,7 @@ class MyController(LeafSystem):
         wheel_velocity = state[self._wheel_velocity_indices]
         desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetFromVector([0.00001, 0.00001])
+        output.SetFromVector([0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000])
 
 def teleop():
     builder = DiagramBuilder()

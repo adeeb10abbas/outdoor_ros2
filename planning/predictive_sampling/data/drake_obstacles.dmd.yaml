@@ -9,7 +9,7 @@ directives:
         translation: [0, 0, 0]
 - add_model:
     name: base_link
-    file: package://ackermann/limo_ackermann.urdf
+    file: package://ackermann/urdf/limo_ackermann.urdf
     default_free_body_pose:
         base_link:
             translation: [0, 0, 0.055]
