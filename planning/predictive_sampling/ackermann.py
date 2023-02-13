@@ -89,7 +89,7 @@ class MyController(LeafSystem):
         ]) + plant.num_positions()
 
         # command is the [vx, vy, wz] components of V_WRobot_Robot.
-        self.DeclareVectorInputPort("command", 3)
+        self.DeclareVectorInputPort("command", 6)
         self.DeclareVectorInputPort("state", plant.num_multibody_states())
         self.DeclareVectorOutputPort("motor_torque", 6, self.CalcTorques)
 
@@ -120,10 +120,10 @@ class MyController(LeafSystem):
         # From anzu/punito/sim/robot_master_controller.cc
         command = self.get_input_port(0).Eval(context)
         state = self.get_input_port(1).Eval(context)
-        wheel_velocity = state[self._wheel_velocity_indices]
-        desired_wheel_velocity = self._vehicle_to_wheel_map @ command
+        # wheel_velocity = state[self._wheel_velocity_indices]
+        # desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetFromVector([-5000, 50.1000, 50.1000, 50.10000, 50.10000, 51.0000])
+        output.SetFromVector([1, 1, 1, 1, 1, 1])
 
 def teleop():
     builder = DiagramBuilder()
@@ -131,7 +131,7 @@ def teleop():
     time_step = 0.005
     plant, scenegraph = AddMultibodyPlantSceneGraph(builder,
                                                     time_step=time_step)
-    #plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
+			    #plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
     parser = Parser(plant)
     parser.package_map().AddPackageXml("planning/predictive_sampling/data/package.xml")
     parser.AddModels('planning/predictive_sampling/data/drake_obstacles.dmd.yaml')
@@ -144,6 +144,7 @@ def teleop():
     joint_names = [plant.get_joint_name(joint) for joint in joints]
     print(joint_names)
     plant.get_actuation_input_port().FixValue(plant, [11110, 11110, 11110, 11110, 11110, 11110])
+
 
     controller = builder.AddSystem(MyController(plant, robot_instance))
 
@@ -187,8 +188,29 @@ def teleop():
                           max=1,
                           step=step,
                           value=0)
+        meshcat.AddSlider(name="1",
+                    increment_keycode="KeyD",
+                    decrement_keycode="KeyA",
+                    min=-1,
+                    max=1,
+                    step=step,
+                    value=0)
+        meshcat.AddSlider(name="2",
+                    increment_keycode="KeyD",
+                    decrement_keycode="KeyA",
+                    min=-1,
+                    max=1,
+                    step=step,
+                    value=0)
+        meshcat.AddSlider(name="3",
+                    increment_keycode="KeyD",
+                    decrement_keycode="KeyA",
+                    min=-1,
+                    max=1,
+                    step=step,
+                    value=0)
         sliders = builder.AddSystem(
-            MeshcatSliders(meshcat, [["xdot", "ydot", "yawdot"]]))
+            MeshcatSliders(meshcat, [["xdot", "ydot", "yawdot", "1", "2", "3"]]))
         builder.Connect(sliders.get_output_port(), controller.get_input_port(0))
 
     # Add a meshcat visualizer.
