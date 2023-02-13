@@ -123,7 +123,7 @@ class MyController(LeafSystem):
         wheel_velocity = state[self._wheel_velocity_indices]
         desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetFromVector([0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000])
+        output.SetFromVector([-5000, 50.1000, 50.1000, 50.10000, 50.10000, 51.0000])
 
 def teleop():
     builder = DiagramBuilder()
@@ -138,6 +138,12 @@ def teleop():
     plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
     plant.Finalize()
     robot_instance = plant.GetModelInstanceByName("base_link")
+    # get all the joints in the robot
+    joints = plant.GetJointIndices(robot_instance)
+    # get the joint names
+    joint_names = [plant.get_joint_name(joint) for joint in joints]
+    print(joint_names)
+    plant.get_actuation_input_port().FixValue(plant, [11110, 11110, 11110, 11110, 11110, 11110])
 
     controller = builder.AddSystem(MyController(plant, robot_instance))
 
@@ -194,19 +200,19 @@ def teleop():
     context = simulator.get_mutable_context()
 
 
-    simulator.set_target_realtime_rate(1.0)
+    simulator.set_target_realtime_rate(5.0)
 
     # For debugging:
     # command is the [vx, vy, wz] components of V_WRobot_Robot.
-    #command = [0, 0, 0.2]
-    #controller.get_input_port(0).FixValue(controller.GetMyContextFromRoot(context), command)
-    # simulator.AdvanceTo(5.0)
-    # return
+    command = [10000, 1000000, 2000, 1000, 1000, 1000]
+    controller.get_input_port(0).FixValue(controller.GetMyContextFromRoot(context), command)
+    simulator.AdvanceTo(500000000.0)
+    return
 
-    meshcat.AddButton("Stop Simulation", "Escape")
-    while meshcat.GetButtonClicks("Stop Simulation") < 1:
-        simulator.AdvanceTo(simulator.get_context().get_time() + 2.0)
-    meshcat.DeleteButton("Stop Simulation")
+    # meshcat.AddButton("Stop Simulation", "Escape")
+    # while meshcat.GetButtonClicks("Stop Simulation") < 1:
+    #     simulator.AdvanceTo(simulator.get_context().get_time() + 2.0)
+    # meshcat.DeleteButton("Stop Simulation")
 
 
 teleop()
