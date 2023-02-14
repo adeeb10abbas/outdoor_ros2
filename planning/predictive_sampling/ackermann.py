@@ -88,10 +88,13 @@ class MyController(LeafSystem):
             plant.GetJointByName('rear_right_wheel', model_instance).velocity_start(),
         ]) + plant.num_positions()
 
-        # command is the [vx, vy, wz] components of V_WRobot_Robot.
+        # command is the [desired_speed, desired_steering] components of V_WRobot_Robot.
+        # state is the full state of the robot.
         self.DeclareVectorInputPort("command", 6)
         self.DeclareVectorInputPort("state", plant.num_multibody_states())
-        self.DeclareVectorOutputPort("motor_torque", 6, self.CalcTorques)
+
+        self.DeclareVectorOutputPort("motor_torque", 4, self.CalcTorques)
+        self.DeclareVectorOutputPort("steering", 2, self.AckermannSteeringAngles)
 
         # These should match the parameters used to create the URDF.
         wheel_radius = 0.045 + (0.015 / 2) # hub_radius + (roller_diameter / 2).
@@ -114,8 +117,14 @@ class MyController(LeafSystem):
         """
         This is the method that I wrote to implement Ackermann steering.
         """
-        return NULL
-
+        return None
+    def AckermannSteeringAngles(self, context, output):
+        """
+        This method implements Ackerman steering angles
+        """
+        command = self.get_input_port(0).Eval(context)
+        assert(command.shape == (3,))
+        return [1, 1]
     def CalcTorques(self, context, output):
         # From anzu/punito/sim/robot_master_controller.cc
         command = self.get_input_port(0).Eval(context)
@@ -123,7 +132,7 @@ class MyController(LeafSystem):
         # wheel_velocity = state[self._wheel_velocity_indices]
         # desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetFromVector([1, 1, 1, 1, 1, 1])
+        output.SetFromVector([-5000, 50.1000, 50.1000, 50.10000, 50.10000, 51.0000])
 
 def teleop():
     builder = DiagramBuilder()
@@ -145,13 +154,16 @@ def teleop():
     print(joint_names)
     plant.get_actuation_input_port().FixValue(plant, [11110, 11110, 11110, 11110, 11110, 11110])
 
-
     controller = builder.AddSystem(MyController(plant, robot_instance))
 
     builder.Connect(plant.get_state_output_port(), controller.get_input_port(1))
 
-    builder.Connect(controller.get_output_port(),
-                    plant.get_actuation_input_port())
+    builder.Connect(controller.get_output_port(0),
+                    plant.get_actuation_input_port(0))
+    
+    builder.Connect(controller.get_output_port(1),
+                    plant.get_actuation_input_port(1))
+
 
     meshcat.Delete()
     meshcat.DeleteAddedControls()
