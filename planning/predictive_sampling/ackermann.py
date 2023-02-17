@@ -53,7 +53,7 @@ class GamepadCommand(LeafSystem):
         LeafSystem.__init__(self)
 
         self._meshcat = meshcat
-        port = self.DeclareVectorOutputPort("command", 3, self.CalcOutput)
+        port = self.DeclareVectorOutputPort("command", 2, self.CalcOutput)
         port.disable_caching_by_default()
 
     def CalcOutput(self, context, output):
@@ -81,6 +81,7 @@ class MyController(LeafSystem):
 
     def __init__(self, plant, model_instance):
         LeafSystem.__init__(self)
+
         self._wheel_velocity_indices = np.array([
             plant.GetJointByName('front_left_wheel', model_instance).velocity_start(),
             plant.GetJointByName('front_right_wheel', model_instance).velocity_start(),
@@ -88,51 +89,67 @@ class MyController(LeafSystem):
             plant.GetJointByName('rear_right_wheel', model_instance).velocity_start(),
         ]) + plant.num_positions()
 
+        self._vehicle_steer_angle_indices = np.array([
+            plant.GetJointByName('left_steering_hinge_wheel', model_instance).position_start(),
+            plant.GetJointByName('right_steering_hinge_wheel', model_instance).position_start(),
+        ]) + plant.num_positions()
+        
+        ## Vehicle parameters
+        self._wheelbase = 0.2
+        self._track = 0.14
+        self._wheel_radius = 0.045
+        self._wheel_length = 0.045
+        ## 
+
         # command is the [desired_speed, desired_steering] components of V_WRobot_Robot.
         # state is the full state of the robot.
-        self.DeclareVectorInputPort("command", 6)
-        self.DeclareVectorInputPort("state", plant.num_multibody_states())
-
-        self.DeclareVectorOutputPort("motor_torque", 4, self.CalcTorques)
-        self.DeclareVectorOutputPort("steering", 2, self.AckermannSteeringAngles)
-
-        # These should match the parameters used to create the URDF.
-        wheel_radius = 0.045 + (0.015 / 2) # hub_radius + (roller_diameter / 2).
-        wheelbase = 0.2
-        track = 0.205
-        self._wheel_velocity_kp = 0.1
-
-        lx = track * 0.5
-        ly = wheelbase * 0.5
-
-        # From anzu/punito/control/mecanum_kinematics.cc
-        self._vehicle_to_wheel_map = np.array([
-            [1, -1,  (lx+ly)],
-            [1,  1, -(lx+ly)],
-            [1,  1,  (lx+ly)],
-            [1, -1, -(lx+ly)],
-        ]) / wheel_radius
+        self.DeclareVectorInputPort("command", 2) # 2 is the size of the input vector it
+        # expects. This is the command that we will be sending to the robot.
+        self.DeclareVectorInputPort("state", plant.num_multibody_states()) # This is the state of the robot.
+        # This is the output of the controller. It is the torque that we will be applying to the robot.
+        self.DeclareVectorOutputPort("motor_torque", 6, self.finalOutput)
     
-    def AckermannTorques(self, context, output):
+    def AckermannTorques(self, command, wheel_velocity, _steerAngle):
         """
         This is the method that I wrote to implement Ackermann steering.
         """
-        return None
-    def AckermannSteeringAngles(self, context, output):
+        desired_speed = command[0]
+        desired_angle = command[1]
+        steer_angle_left, steer_angle_right = steer_angle[0], steer_angle[1]
+        L = self._wheelbase
+        R = 1 / np.abs(np.tan(desired_angle))
+        v_l = desired_speed * (R - 0.5 * self._track * np.tan(steer_angle_left)) / R
+        v_r = desired_speed * (R + 0.5 * self._track * np.tan(steer_angle_right)) / R
+        tau_l = (v_l - wheel_velocity[0]) / self._wheel_radius
+        tau_r = (v_r - wheel_velocity[1]) / self._wheel_radius
+        return np.array([tau_l, tau_l, tau_r, tau_r])
+
+    def AckermannSteeringAngles(self, command, _steerAngle):
         """
         This method implements Ackerman steering angles
         """
-        command = self.get_input_port(0).Eval(context)
-        assert(command.shape == (3,))
-        return [1, 1]
-    def CalcTorques(self, context, output):
+        desired_angle = command[1]
+        steer_angle_left, steer_angle_right = _steerAngle[0], _steerAngle[1]
+        L = self._wheelbase
+        beta = np.arctan2(np.tan(desired_angle), 2.0)
+        steer_angle_left_desired = np.arctan2(L * np.tan(beta) - 0.5 * self._track, L)
+        steer_angle_right_desired = np.arctan2(L * np.tan(beta) + 0.5 * self._track, L)
+        return np.array([steer_angle_left_desired, steer_angle_right_desired])
+
+    def finalOutput(self, context, output):
         # From anzu/punito/sim/robot_master_controller.cc
         command = self.get_input_port(0).Eval(context)
         state = self.get_input_port(1).Eval(context)
-        # wheel_velocity = state[self._wheel_velocity_indices]
+        
+        wheel_velocity = state[self._wheel_velocity_indices]
+        steer_angle = state[self._vehicle_steer_angle_indices]
+        
+        ## Get the Ackermann steering angles
+        _steerAngle = self.AckermannSteeringAngles(command, steer_angle)
+        _torqeOutput = self.AckermannTorques(command, wheel_velocity, _steerAngle)
         # desired_wheel_velocity = self._vehicle_to_wheel_map @ command
         
-        output.SetFromVector([-5000, 50.1000, 50.1000, 50.10000, 50.10000, 51.0000])
+        output.SetFromVector(np.concat(_torqeOutput, _finalOutput))
 
 def teleop():
     builder = DiagramBuilder()
@@ -147,23 +164,14 @@ def teleop():
     plant.set_discrete_contact_solver(DiscreteContactSolver.kSap)
     plant.Finalize()
     robot_instance = plant.GetModelInstanceByName("base_link")
-    # get all the joints in the robot
-    joints = plant.GetJointIndices(robot_instance)
-    # get the joint names
-    joint_names = [plant.get_joint_name(joint) for joint in joints]
-    print(joint_names)
-    plant.get_actuation_input_port().FixValue(plant, [11110, 11110, 11110, 11110, 11110, 11110])
+    print("Number of multibody States: ", plant.num_multibody_states())
 
     controller = builder.AddSystem(MyController(plant, robot_instance))
 
     builder.Connect(plant.get_state_output_port(), controller.get_input_port(1))
 
     builder.Connect(controller.get_output_port(0),
-                    plant.get_actuation_input_port(0))
-    
-    builder.Connect(controller.get_output_port(1),
-                    plant.get_actuation_input_port(1))
-
+                    plant.get_actuation_input_port())
 
     meshcat.Delete()
     meshcat.DeleteAddedControls()
@@ -179,50 +187,23 @@ def teleop():
     else: # use keyboard teleop
         print("No gamepad found.  Using keyboard/slider teleop.")
         step = 0.02
-        meshcat.AddSlider(name="xdot",
-                          increment_keycode="ArrowUp",
-                          decrement_keycode="ArrowDown",
+        meshcat.AddSlider(name="steer",
+                          increment_keycode="KeyA",
+                          decrement_keycode="KeyD",
                           min=-1,
                           max=1,
                           step=step,
                           value=0)
-        meshcat.AddSlider(name="ydot",
-                          increment_keycode="ArrowLeft",
-                          decrement_keycode="ArrowRight",
-                          min=-1,
-                          max=1,
-                          step=step,
-                          value=0)
-        meshcat.AddSlider(name="yawdot",
-                          increment_keycode="KeyD",
-                          decrement_keycode="KeyA",
-                          min=-1,
-                          max=1,
-                          step=step,
-                          value=0)
-        meshcat.AddSlider(name="1",
-                    increment_keycode="KeyD",
-                    decrement_keycode="KeyA",
-                    min=-1,
-                    max=1,
-                    step=step,
-                    value=0)
-        meshcat.AddSlider(name="2",
-                    increment_keycode="KeyD",
-                    decrement_keycode="KeyA",
-                    min=-1,
-                    max=1,
-                    step=step,
-                    value=0)
-        meshcat.AddSlider(name="3",
-                    increment_keycode="KeyD",
-                    decrement_keycode="KeyA",
-                    min=-1,
-                    max=1,
-                    step=step,
-                    value=0)
+
+        meshcat.AddSlider(name="vel",
+                            increment_keycode="KeyW",
+                            decrement_keycode="KeyS",
+                            min=-1,
+                            max=1,
+                            step=step,
+                            value=0)
         sliders = builder.AddSystem(
-            MeshcatSliders(meshcat, [["xdot", "ydot", "yawdot", "1", "2", "3"]]))
+            MeshcatSliders(meshcat, [["steer", "vel"]]))
         builder.Connect(sliders.get_output_port(), controller.get_input_port(0))
 
     # Add a meshcat visualizer.
@@ -238,15 +219,13 @@ def teleop():
 
     # For debugging:
     # command is the [vx, vy, wz] components of V_WRobot_Robot.
-    command = [10000, 1000000, 2000, 1000, 1000, 1000]
-    controller.get_input_port(0).FixValue(controller.GetMyContextFromRoot(context), command)
-    simulator.AdvanceTo(500000000.0)
-    return
+    # simulator.AdvanceTo(500000000.0)
+    # return
 
-    # meshcat.AddButton("Stop Simulation", "Escape")
-    # while meshcat.GetButtonClicks("Stop Simulation") < 1:
-    #     simulator.AdvanceTo(simulator.get_context().get_time() + 2.0)
-    # meshcat.DeleteButton("Stop Simulation")
+    meshcat.AddButton("Stop Simulation", "Escape")
+    while meshcat.GetButtonClicks("Stop Simulation") < 1:
+        simulator.AdvanceTo(simulator.get_context().get_time() + 2.0)
+    meshcat.DeleteButton("Stop Simulation")
 
 
 teleop()

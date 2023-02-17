@@ -102,13 +102,7 @@ class MyController(LeafSystem):
         lx = track * 0.5
         ly = wheelbase * 0.5
 
-        # From anzu/punito/control/mecanum_kinematics.cc
-        self._vehicle_to_wheel_map = np.array([
-            [1, -1,  (lx+ly)],
-            [1,  1, -(lx+ly)],
-            [1,  1,  (lx+ly)],
-            [1, -1, -(lx+ly)],
-        ]) / wheel_radius
+        # This is the matrix that maps from [vx, vy, wz] to wheel velocities.
 
     def CalcTorques(self, context, output):
         # From anzu/punito/sim/robot_master_controller.cc
