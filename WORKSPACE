@@ -87,7 +87,7 @@ add_default_workspace()
 ##### DRAKE ROS #####
 ## Adding Bazel_ROS2_Rules for drake-ros stuff to work ##
 DRAKE_ROS_commit = "8aa68032251c4eefd24d0fc03e2dd3acc3d8b435"
-DRAKE_ROS_sha256 = "8d136b94bc429112c2bf81587feee0d20966005c9bf374d4f4849373d478f82e"
+DRAKE_ROS_sha256 = "f8998e2718f4afcfa8ca62ddb6b6a10efc3449e0222a0371bef24ee47dcbafcc"
 ## Ref: ECousineau's awesome script - 
 ## https://github.com/EricCousineau-TRI/repro/blob/50c3f52c6b745f686bef9567568437dc609a7f91/bazel/bazel_hash_and_cache.py
 
@@ -137,7 +137,7 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/refs/tags/main.tar.gz",],
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
     }
 )
 
