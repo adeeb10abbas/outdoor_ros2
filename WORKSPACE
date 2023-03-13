@@ -99,7 +99,7 @@ github_archive(
         commit = DRAKE_ROS_commit,
         sha256 = DRAKE_ROS_sha256,
         mirrors = {
-            "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
+            "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
         }
     )
 
@@ -113,8 +113,8 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
-    }
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+        }
 )
 
 github_archive(
@@ -125,8 +125,8 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
-    }
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+        }
 )
 
 github_archive(
@@ -137,8 +137,8 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
-    }
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+        }
 )
 
 github_archive(
@@ -149,8 +149,8 @@ github_archive(
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/HEAD.tar.gz",],
-    }
+        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+        }
 )
 
 load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
@@ -174,7 +174,7 @@ ROS2_PACKAGES = [
     "visualization_msgs",
     "rosidl_default_runtime",
     "image_transport",
-    "vision_opencv",
+    #"vision_opencv",
     "cv_bridge",
 ] + [
     # These are possible RMW implementations. Uncomment one and only one to
@@ -186,7 +186,7 @@ ROS2_PACKAGES = [
 # Use ROS 2
 ros2_local_repository(
     name = "ros2",
-    workspaces = [ "/home/arrowhead/outdoor_ws/install", "/opt/ros/humble",],
+    workspaces = [ "~/outdoor_ws/install/", "/opt/ros/humble",],
     include_packages = ROS2_PACKAGES,
 )
 
