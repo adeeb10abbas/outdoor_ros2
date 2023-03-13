@@ -174,7 +174,7 @@ ROS2_PACKAGES = [
     "visualization_msgs",
     "rosidl_default_runtime",
     "image_transport",
-    #"vision_opencv",
+    "vision_opencv",
     "cv_bridge",
 ] + [
     # These are possible RMW implementations. Uncomment one and only one to
