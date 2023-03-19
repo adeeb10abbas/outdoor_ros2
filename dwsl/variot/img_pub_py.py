@@ -3,7 +3,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 import numpy as np
-import websocket
+import websockets
 
 class VariotImage(Node):
     def __init__(self):
