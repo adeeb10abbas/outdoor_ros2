@@ -186,7 +186,7 @@ ROS2_PACKAGES = [
 # Use ROS 2
 ros2_local_repository(
     name = "ros2",
-    workspaces = [ "~/outdoor_ws/install/", "/opt/ros/humble",],
+    workspaces = ["/opt/ros/humble",],
     include_packages = ROS2_PACKAGES,
 )
 
