@@ -43,7 +43,7 @@ function main {
     install_colcon
     install_cyclonedds
     install_toposort
-
+    install_vision_opencv
     if [ "$skip_rosdep" = "false" ]; then
         install_rosdep
     fi
@@ -147,6 +147,10 @@ function install_suiteparse {
     # Needed for building opencv
     echo "Installing SuiteSparse..."
     sudo apt-get install -y libsuitesparse-dev
+}
+
+function install_vision_opencv {
+	sudo apt-get install -y ros-humble-vision-opencv
 }
 
 main
