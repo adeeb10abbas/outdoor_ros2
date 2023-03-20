@@ -48,6 +48,7 @@
 /.clwb/
 /.vscode
 /.history
+/bin
 
 # (Possible) CMake build artifacts
 /build/
