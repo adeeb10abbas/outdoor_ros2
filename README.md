@@ -9,6 +9,8 @@ This is the mono repo for the outdoor SLAM and Autonomous Navigation project at 
 
 ## Steps to build and run the projects
 - Run the [`ros-humble-install.sh`](https://github.com/Zhourobotics/outdoor_slam_ros2/blob/main/ros-humble-install.sh) for installing all the prereqs needed! 
+- To build: `bazel build <target>` and to run `bazel run <target>`; For more please read the [Bazel documentation](https://bazel.build/). For building the whole repo, run `bazel build ...`
+
 - **[Optional/Skip unless you know what you are doing]** If you want to create an overlay ROS2 workspace and use the that. You can use `outdoor.repos` to pull in the required packages via the following steps- 
   ```bash
   mkdir -p outdoor_ws/src
@@ -28,7 +30,7 @@ This is the mono repo for the outdoor SLAM and Autonomous Navigation project at 
     )
     ```
     NOTE: Multiple ROS workspaces can be added and just need to be added as a string in a `workspace` list as shown. 
-- To build: `bazel build <target>` and to run `bazel run <target>`; For more please read the [Bazel documentation](https://bazel.build/). 
+
 
 ## Features
 - Created an `example`  directory to show how to pull in and build external useful libs like drake-ros, drake, OpenCV and use it in your project for   both `Python` and `C++` targets.
