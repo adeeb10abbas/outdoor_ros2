@@ -4,7 +4,7 @@ numpy==1.24
 aenum==3.0.0
 pegl==0.2a1
 glfw==2.1.0
-mujoco==2.2.2
+mujoco==2.3.3
 pyopengl==3.1.5
 absl_py==0.13.0
 six==1.16.0 
