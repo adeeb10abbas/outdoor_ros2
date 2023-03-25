@@ -25,6 +25,8 @@ ros_cc_binary(
         "@drake//multibody/plant",
         "@drake//common",
         "@drake_ros_repo//viz",
+        # for python3 drake_ros bindings use - 
+        # "@drake_ros_repo//:drake_ros_py"
     ],
 )
 ros_py_binary(
