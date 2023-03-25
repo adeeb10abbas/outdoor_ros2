@@ -14,14 +14,14 @@ ros_cc_binary(
         "@mujoco//:C_mujoco",
         "@drake//math",
         "@drake//systems/framework",
-        "@drake_ros_core",
+        "@drake_ros",
         "@ros2//:geometry_msgs_cc",
         "@ros2//:visualization_msgs_cc",
         "@drake//systems/primitives",
         "@drake//multibody/plant",
         "@drake//common",
-        "@drake_ros_viz",
-        "@drake_ros_tf2",
+        "@drake_ros",
+        "@drake_ros",
     ],
 
 )

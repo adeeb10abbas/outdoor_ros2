@@ -86,77 +86,58 @@ add_default_workspace()
 
 ##### DRAKE ROS #####
 ## Adding Bazel_ROS2_Rules for drake-ros stuff to work ##
-DRAKE_ROS_commit = "09445aa94800f18757093fbaed97e33b29231f95"
-DRAKE_ROS_sha256 = "69eae79153810e47db4cca1ec3d1034aec6d79c28b6bcb74804fb91fc437c078"
+DRAKE_ROS_commit = "70e06d8192cb5e1fca591a233ea1ea74870f53d9"
+DRAKE_ROS_sha256 = "734616717ca6f2fd77b5515758882572543b914e679117d6f2087c17a541ecec"
 ## Ref: ECousineau's awesome script - 
 ## https://github.com/EricCousineau-TRI/repro/blob/50c3f52c6b745f686bef9567568437dc609a7f91/bazel/bazel_hash_and_cache.py
 
-
 github_archive(
-        name = "bazel_ros2_rules",
-        repository = "RobotLocomotion/drake-ros",
-        extra_strip_prefix = "bazel_ros2_rules",
-        commit = DRAKE_ROS_commit,
-        sha256 = DRAKE_ROS_sha256,
-        mirrors = {
-            "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-        }
-    )
-
-load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
-add_bazel_ros2_rules_dependencies()
+    name = "bazel_ros2_rules",
+    repository = "RobotLocomotion/drake-ros",
+    extra_strip_prefix = "bazel_ros2_rules",
+    commit = DRAKE_ROS_commit,
+    sha256 = DRAKE_ROS_sha256,
+    mirrors = {
+        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+    },
+)
 
 github_archive(
     name = "drake_ros_core",
     repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros_core",
+    extra_strip_prefix = "drake_ros/core",
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-        }
+        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+    },
 )
 
 github_archive(
     name = "drake_ros_tf2",
     repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros_tf2",
-    # TODO(drake-ros#158): Use provided BUILD file.
+    extra_strip_prefix = "drake_ros/tf2",
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-        }
-)
-
-github_archive(
-    name = "ros2_example_bazel_installed",
-    repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "ros2_example_bazel_installed",
-    # TODO(drake-ros#158): Use provided BUILD file.
-    commit = DRAKE_ROS_commit,
-    sha256 = DRAKE_ROS_sha256,
-    mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-        }
+        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+    },
 )
 
 github_archive(
     name = "drake_ros_viz",
     repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros_viz",
-    # TODO(drake-ros#158): Use provided BUILD file.
+    extra_strip_prefix = "drake_ros/viz",
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
-        "github":["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-        }
+        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
+    },
 )
 
 load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
 add_bazel_ros2_rules_dependencies()
 
-load("@bazel_ros2_rules//ros2:defs.bzl", "ros2_archive")
 load("@bazel_ros2_rules//ros2:defs.bzl", "ros2_local_repository")
 
 ROS2_PACKAGES = [
