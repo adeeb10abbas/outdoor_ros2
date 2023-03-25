@@ -103,31 +103,9 @@ github_archive(
 )
 
 github_archive(
-    name = "drake_ros_core",
+    name = "drake_ros_repo",
     repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros/core",
-    commit = DRAKE_ROS_commit,
-    sha256 = DRAKE_ROS_sha256,
-    mirrors = {
-        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-    },
-)
-
-github_archive(
-    name = "drake_ros_tf2",
-    repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros/tf2",
-    commit = DRAKE_ROS_commit,
-    sha256 = DRAKE_ROS_sha256,
-    mirrors = {
-        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-    },
-)
-
-github_archive(
-    name = "drake_ros_viz",
-    repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros/viz",
+    extra_strip_prefix = "drake_ros",
     commit = DRAKE_ROS_commit,
     sha256 = DRAKE_ROS_sha256,
     mirrors = {
