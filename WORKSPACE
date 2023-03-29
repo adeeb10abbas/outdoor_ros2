@@ -22,7 +22,7 @@ git_repository(
 
 git_repository(
     name = "com_github_google_rules_install",
-    branch = "main",
+    commit = "e12fa95adda9fae107a22798acc2a3849d46f94a",
     remote = "https://github.com/google/bazel_rules_install",
 )
 
@@ -66,6 +66,7 @@ new_git_repository(
 
 http_archive(
     name = "qhull",
+
     urls = ["https://github.com/qhull/qhull/archive/HEAD.tar.gz"],
     build_file = "//external:qhull.BUILD",
 )
@@ -99,9 +100,9 @@ git_repository(
 )
 
 git_repository(
-    name = "drake-ros",
+    name = "drake_ros_repo",
     commit = DRAKE_ROS_commit,
-    strip_prefix = "drake-ros",
+    strip_prefix = "drake_ros",
     remote = "https://github.com/RobotLocomotion/drake-ros.git",
 )
 

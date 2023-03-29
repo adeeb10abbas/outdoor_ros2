@@ -19,6 +19,8 @@ ros_cc_binary(
         "@drake//systems/primitives",
         "@drake//multibody/plant",
         "@drake//common",
+        "@drake_ros_repo//core",
+        "@drake_ros_repo//viz"
     ],
 
 )
