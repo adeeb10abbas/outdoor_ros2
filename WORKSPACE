@@ -91,26 +91,18 @@ DRAKE_ROS_sha256 = "6b24558181953bbac80d0b37dafa4e9c09f3b62527355c1f0e5c9189a549
 ## Ref: ECousineau's awesome script - 
 ## https://github.com/EricCousineau-TRI/repro/blob/50c3f52c6b745f686bef9567568437dc609a7f91/bazel/bazel_hash_and_cache.py
 
-github_archive(
+git_repository(
     name = "bazel_ros2_rules",
-    repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "bazel_ros2_rules",
     commit = DRAKE_ROS_commit,
-    sha256 = DRAKE_ROS_sha256,
-    mirrors = {
-        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-    },
+    strip_prefix = "bazel_ros2_rules",
+    remote = "https://github.com/RobotLocomotion/drake-ros.git",
 )
 
-github_archive(
-    name = "drake_ros_repo",
-    repository = "RobotLocomotion/drake-ros",
-    extra_strip_prefix = "drake_ros",
+git_repository(
+    name = "drake-ros",
     commit = DRAKE_ROS_commit,
-    sha256 = DRAKE_ROS_sha256,
-    mirrors = {
-        "github": ["https://github.com/RobotLocomotion/drake-ros/archive/{commit}.tar.gz".format(commit=DRAKE_ROS_commit),],
-    },
+    strip_prefix = "drake-ros",
+    remote = "https://github.com/RobotLocomotion/drake-ros.git",
 )
 
 load("@bazel_ros2_rules//deps:defs.bzl", "add_bazel_ros2_rules_dependencies")
