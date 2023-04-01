@@ -1,6 +1,3 @@
-## This is the code that's originally from TRI and is used in Russ Tedrake's coursework at MIT. 
-## He has graciously given us permission to use this code for the purposes of this project.
-
 ## Allows you to control the robot with a gamepad or sliders in Meshcat using Pydrake.
 
 from functools import partial
