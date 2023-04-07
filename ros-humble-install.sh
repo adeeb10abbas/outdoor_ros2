@@ -37,8 +37,6 @@ function main {
     update_upgrade_system
     install_ros
     configure_bash
-    add_ros2_repository
-    add_ros_key
     update_system
     install_colcon
     install_cyclonedds
@@ -91,8 +89,18 @@ function update_upgrade_system {
 
 function install_ros {
     echo "Installing ROS Humble Desktop..."
-    sudo apt install -y ros-humble-desktop
-    # Change the flavor if needed
+    sudo apt install software-properties-common
+    sudo add-apt-repository universe
+    sudo apt update && sudo apt install curl
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+    sudo apt update
+    # Install the desktop user entry point.
+    sudo apt install ros-humble-desktop
+    # Install dev tools.
+    sudo apt install ros-dev-tools
+    # Update dependencies index.
+    rosdep update
 }
 
 function configure_bash {
