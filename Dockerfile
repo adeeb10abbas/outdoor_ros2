@@ -56,6 +56,8 @@ RUN wget -q -O /tmp/drake-setup.zip https://github.com/RobotLocomotion/drake/arc
     apt-get update && \
     apt-get install -y ros-humble-desktop && \
     apt-get install -y ros-dev-tools && \
+    apt-get install libglfw3 && \
+    apt-get install libglfw3-dev && \
     # it will yell at you because it's root and what not.. just ignore it
     rosdep init && \ 
     rosdep update && \
