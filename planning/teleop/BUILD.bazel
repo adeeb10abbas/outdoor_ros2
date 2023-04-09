@@ -10,7 +10,6 @@ py_binary(
     ],
     deps = [
      "@drake//bindings/pydrake:pydrake",
-        requirement("matplotlib")
     ],
 )
 install_data()
